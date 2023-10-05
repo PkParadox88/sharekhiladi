@@ -1,0 +1,4 @@
+Django~=4.2.5
+aiohttp~=3.8.5
+easyocr~=1.7.1
+yarl~=1.9.2
