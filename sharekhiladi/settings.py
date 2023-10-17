@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-o^v2y(38%+9&*3!yk8!&6jmftdsbxp%y(=d&y5#1%1avctxul4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "khiladi",
+    'huey.contrib.djhuey',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,13 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 ROOT_URLCONF = "sharekhiladi.urls"
 
@@ -69,17 +78,30 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "sharekhiladi.wsgi.application"
-
+# ASGI_APPLICATION = "sharekhiladi.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'portfolio19',
+        'USER': 'postgres',
+        'PASSWORD': 'pk@data#',
+        'HOST': 'localhost',  # Set to your PostgreSQL host
+        'PORT': '5432',       # Default PostgreSQL port
+
     }
 }
+
 
 
 # Password validation
@@ -106,19 +128,37 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kathmandu"
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+HUEY = {
+    'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
+    ''
+    'name': 'ASISPO',  # Name of the Redis connection.
+    'immediate': False,
+    'connection': {},
+    'consumer': {
+        'blocking': True,
+        'loglevel': True,
+        'workers': 8,  # Number of consumer workers.
+        'scheduler_interval': 1,  # Check schedule every second, -s.
+        'health_check_interval': 5,  # Check worker health every second.
+        'simple_log': True,
+        },
+    }
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+STATIC_URL = "static/"
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
