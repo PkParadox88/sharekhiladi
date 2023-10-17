@@ -9,4 +9,4 @@ websockets~=11.0.3
 pywasm~=1.0.8
 huey~=2.5.0
 redis~=5.0.1
-psycopg2~=2.9.9
+psycopg2-binary~=2.9.9
