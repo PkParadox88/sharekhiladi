@@ -1,0 +1,45 @@
+ <script>
+        // Read the JSON data
+        fetch('time_series_data.json')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(item => item.x);
+                const dataPoints = data.map(item => item.y);
+
+                // Find the minimum and maximum y-values
+                const minY = Math.min(...dataPoints);
+                const maxY = Math.max(...dataPoints);
+
+                const chartData = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'NEPSE Day Data',
+                        data: dataPoints,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Dark blue fill color
+                        fill: 'origin', // Fill the area below the line
+                    }]
+                };
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'category',
+                                labels: labels, // Use custom labels for the x-axis
+                                offset: true
+                            },
+                            y: {
+                                beginAtZero: false, // Begin y-axis at the minimum value
+                                min: minY - 10, // Start 10 points below the minimum value
+                                max: maxY + 10, // Show 10 points above the maximum value
+                            }
+                        }
+                    }
+                });
+            });
+    </script>

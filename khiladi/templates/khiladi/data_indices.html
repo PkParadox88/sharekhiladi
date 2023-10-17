@@ -1,0 +1,55 @@
+{% load static %}
+
+<script>
+    // Function to fetch data from the 'api_indices' endpoint
+    function fetchDataFromAPI() {
+        $.ajax({
+            type: 'GET',
+            url: '{% url "api_indices" %}', // Use the URL name
+            dataType: 'json',
+            success: function (data) {
+                // Handle the data from the API here
+                console.log(data);
+
+                // Check if the "index-table" element exists
+                var tableBody = document.getElementById("index-table");
+                if (tableBody) {
+                    // Access the 'indices' array from the JSON data
+                    var indices = data.indices;
+
+                    // Clear the existing table rows
+                    tableBody.innerHTML = '';
+
+                    // Iterate through the JSON data and create table rows using forEach
+                    indices.forEach(function (item) {
+                        var row = document.createElement("tr");
+                        row.innerHTML = "<td>" + item.indexCode + "</td>" +
+                            "<td>" + item.indexValue + "</td>" +
+                            "<td>" + item.change + "</td>" +
+                            "<td>" + item.percentageChange + "</td>";
+
+                        tableBody.appendChild(row);
+                    });
+                }
+
+                // Check if item.indexCode is "NEPSE" and display it
+                var nepseData = data.indices.find(function (item) {
+                    return item.indexCode === "NEPSE";
+                });
+
+                if (nepseData) {
+                    document.getElementById("nepse-head").innerText = "NEPSE : " + nepseData.indexValue;
+                    document.getElementById("nepse-change").innerText = " ( " + nepseData.change + " / " + nepseData.percentageChange + "% ) ";
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('Error fetching data from API: ' + error);
+            }
+        });
+    }
+
+    // Call the function when the page loads
+    $(document).ready(function () {
+        fetchDataFromAPI();
+    });
+</script>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard-ShareKhiladi</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  {% load static %}
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'khiladi/images/favicons/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'khiladi/images/favicons/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'khiladi/images/favicons/favicon-16x16.png' %}">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'khiladi/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'khiladi/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'khiladi/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'khiladi/vendor/quill/quill.snow.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'khiladi/vendor/quill/quill.bubble.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'khiladi/vendor/remixicon/remixicon.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'khiladi/vendor/simple-datatables/style.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'khiladi/css/style_dashboard.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="{% static 'khiladi/css/livetable.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'khiladi/css/count_head.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'khiladi/css/blinker.css' %}">
+  <link href="{% static 'khiladi/css/market-head.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Include jQuery (you can download it or link to a CDN) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  {% include 'khiladi/header.html' %}
+
+  <!-- ======= Sidebar ======= -->
+  {% include 'khiladi/sidebar.html' %}
+
+  <main id="main" class="main">
+
+<div class="pagetitle">
+  <h1>Live Data</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item active">Live Data</li>
+    </ol>
+  </nav>
+</div>
+<div class="blinker-container">
+  <div class="blinker-label">Live Data</div>
+  <div class="blinker"></div>
+</div><!-- End Page Title -->
+
+
+    <div class="counts-container">
+        <div class="count-box advances">
+            <p>Advances: <span class="count"></span></p>
+        </div>
+        <div class="count-box declines">
+            <p>Declines: <span class="count"></span></p>
+        </div>
+        <div class="count-box neutral">
+            <p>Neutral: <span class="count"></span></p>
+        </div>
+    </div>
+
+
+
+    <div class="table-container">
+        <div class="live_table">
+      <!-- Call your render update url using Django -->
+      <div id="update-data" data-url="{% url 'update_data' %}"></div>
+
+      <table>
+      <thead>
+          <tr>
+              <th>S.N.</th>
+              <th>Symbol</th>
+              <th>Volume</th>
+              <th>LTP</th>
+              <th>Percent Change</th>
+              <th>High</th>
+              <th>Low</th>
+              <th>Open</th>
+              <th>LTV</th>
+              <th>Last Traded Time</th>
+              <th>Change</th>
+              <th>Previous Close</th>
+          </tr>
+      </thead>
+      <tbody id="stockTableBody">
+          <!-- Table rows will be updated here -->
+      </tbody>
+      </table>
+
+      <!-- Include jQuery (you can download it or link to a CDN) -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <!-- Include your custom JavaScript file -->
+
+      <script>
+$(document).ready(function() {
+    function updateTable() {
+        // Retrieve the URL from the data-url attribute
+        var updateDataUrl = $("#update-data").data("url");
+
+        // Make an AJAX request to the URL
+        $.ajax({
+            url: updateDataUrl,
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                var $stockTableBody = $("#stockTableBody");
+                var positiveCount = 0;
+                var negativeCount = 0;
+                var noChangeCount = 0;
+
+                // Clear the existing table rows
+                $stockTableBody.empty();
+
+                // Iterate through the received data and update the table
+                $.each(data.stocks, function(index, stock) {
+                    var percentChangeClass = '';
+                    if (stock.percentChange < 0) {
+                        percentChangeClass = 'negative';
+                        negativeCount++;
+                    } else if (stock.percentChange > 0) {
+                        percentChangeClass = 'positive';
+                        positiveCount++;
+                    } else {
+                        percentChangeClass = 'zero';
+                        noChangeCount++;
+                    }
+
+                    var rowHtml =
+                        "<tr class='" + percentChangeClass + "'>" +
+                        "<td>" + (index + 1) + "</td>" +  // Display S.N.
+                        "<td>" + stock.symbol + "</td>" +
+                        "<td>" + stock.volume + "</td>" +
+                        "<td>" + stock.ltp + "</td>" +
+                        "<td class='" + percentChangeClass + "'>" + stock.percentChange + "</td>" +
+                        "<td>" + stock.high + "</td>" +
+                        "<td>" + stock.low + "</td>" +
+                        "<td>" + stock.open + "</td>" +
+                        "<td>" + stock.lastTradedVolume + "</td>" +
+                        "<td>" + stock.lastTradedTime + "</td>" +
+                        "<td>" + stock.change + "</td>" +
+                        "<td>" + stock.previousClose + "</td>" +
+                        "</tr>";
+
+                    $stockTableBody.append(rowHtml);
+                });
+
+            // Update the counts in the HTML using jQuery
+              $(".advances .count").text(positiveCount);
+              $(".declines .count").text(negativeCount);
+              $(".neutral .count").text(noChangeCount);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: " + error);
+            }
+        });
+    }
+
+    // Load the table and counts immediately when the page is ready
+    updateTable();
+
+    // Periodically update the table and counts every 1.5 seconds
+    setInterval(updateTable, 1500);
+});
+
+
+      </script>
+    </div>
+    </div>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  {% include 'khiladi/footer.html' %}
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'khiladi/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/chart.js/chart.umd.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'khiladi/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'khiladi/js/main_dashboard.js' %}"></script>
+  <script src="{% static 'khiladi/js/manual.js' %}"></script>
+
+</body>
+
+</html>

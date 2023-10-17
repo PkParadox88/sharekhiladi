@@ -1,0 +1,35 @@
+{% load static %}
+
+<script>
+    // Function to fetch data from the 'api_indices' endpoint
+    function fetchData() {
+        $.ajax({
+            type: 'GET',
+            url: '{% url "fetch_turnover" %}', // Use the URL name
+            dataType: 'json',
+            success: function (data) {
+                // Handle the data from the API here
+                console.log(data);
+
+                // Access the 'turnover' data from the JSON
+                var turnoverData = data.turnover;
+
+                // Extract values from JSON
+                var totalTradedQuantity = turnoverData.totalTradedQuantity;
+                var totalTradedValue = turnoverData.totalTradedValue;
+
+                document.getElementById("nepse-volume").innerText = "Volume : " + totalTradedQuantity;
+                document.getElementById("nepse-turnover").innerText = "Turnover : " + totalTradedValue;
+
+            },
+            error: function (xhr, status, error) {
+                console.log('Error fetching data from API: ' + error);
+            }
+        });
+    }
+
+    // Call the function when the page loads
+    $(document).ready(function () {
+        fetchData();
+    });
+</script>

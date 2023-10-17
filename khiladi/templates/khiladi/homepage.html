@@ -3,12 +3,16 @@
 <head>
     <title>Share Khiladi</title>
     {% load static %}
-    <link rel="icon" type="image/png" href="{% static 'khiladi/images/icon_world.png' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'khiladi/css/styles.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'khiladi/images/favicons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'khiladi/images/favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'khiladi/images/favicons/favicon-16x16.png' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'khiladi/css/style_homepage.css' %}">
 </head>
 <body>
     <h1>Live Stock Data From TMS</h1>
-    <a href="{% url 'dashboard' %}">Go to Dashboard</a>
+    <a href="{% url 'dashboard' %}">Go to Dashboard TMS19</a>
+    <a href="{% url 'dashboard' %}">Go to Dashboard TMS35</a>
 
     <!-- Call your render update url using Django -->
     <div id="update-data" data-url="{% url 'update_data' %}"></div>
