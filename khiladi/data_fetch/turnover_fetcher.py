@@ -1,5 +1,4 @@
 import json
-from .session import SessionManager
 from aiohttp import ClientSession, ClientError
 import asyncio
 import nest_asyncio
@@ -23,14 +22,14 @@ async def load_token():
 
 
 async def get_live_data(session, tms_id, headers):
-    url = f"https://{tms_id}.nepsetms.com.np/tmsapi/rtApi/ws/top25securities"
-    logger.info(f"\tFetching {tms_id} data...")
+    url = f"https://{tms_id}.nepsetms.com.np/tmsapi/rtApi/admin/vCache/marketTurnover"
+    logger.info(f"\tFetching {tms_id} turnover data...")
 
     try:
         async with session.get(url, headers=headers) as response:
             response.raise_for_status()
             response_json = await response.json()
-            data = response_json['payload']['data']
+            data = response_json['totalTurnover']
             # print(data)
             return data
 
@@ -43,9 +42,7 @@ async def get_live_data(session, tms_id, headers):
 
 async def main():
     async with ClientSession() as session:
-        # asyncio.run(SessionManager().get_sessions()) # Refresh token
         auth_tokens = asyncio.run(load_token())
-        # print(auth_tokens)
 
         for ids in auth_tokens:
             tms_id = auth_tokens[ids]['Referer'][8:13]
@@ -53,3 +50,6 @@ async def main():
             data = await get_live_data(session, tms_id, headers)
             return data
 
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -203,7 +203,7 @@ class SessionManager:
                 async with session.get(check_url, headers=headers) as response:
                     if response.status == 200:
                         rj = await response.json()
-                        print(rj)
+                        # print(rj)
                         return True
 
             except ClientError as e:
