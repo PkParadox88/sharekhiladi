@@ -1,0 +1,70 @@
+/* CSS for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header row styles */
+th {
+  background-color: #3498db; /* Header background color (Blue) */
+  color: #ffffff; /* Header text color (White) */
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #dddddd;
+}
+
+/* Cell styles */
+td {
+  padding: 10px;
+  border: 1px solid #dddddd; /* Cell border */
+}
+
+/* CSS for the entire table row based on cgt value */
+.red-row td {
+  background-color: red; /* Red background color */
+  color: white; /* Text color */
+}
+
+.green-row td {
+  background-color: green; /* Green background color */
+  color: white; /* Text color */
+}
+
+/* Alternate row styles */
+tr:nth-child(odd) {
+  background-color: #fa835f; /* Alternate row background color (Lighter Gray) */
+}
+
+tr:nth-child(even) {
+  background-color: #85d692; /* Alternate row background color (Light Gray) */
+}
+
+/* Hover effect for rows */
+tr:hover {
+  background-color: #b183cc; /* Hovered row background color (Lighter Gray) */
+}
+
+/* Hover effect for red rows */
+.red-row:hover td {
+  background-color: #ff4d4d; /* Hovered red row background color (Light Red) */
+}
+
+/* Hover effect for green rows */
+.green-row:hover td {
+  background-color: #4caf50; /* Hovered green row background color (Green) */
+}
+
+/* CSS for the loading spinner */
+#loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3); /* Spinner border color with transparency */
+  border-top: 4px solid #3498db; /* Spinner top border color */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite; /* Rotate the spinner continuously */
+}
+
+/* CSS to hide the loading spinner initially */
+.hidden {
+  display: none;
+}

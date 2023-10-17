@@ -1,0 +1,31 @@
+/* Keep the original styles for larger screens */
+.NEPSE-head {
+  border-radius: 5px;
+  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+  background-color: black;
+  color: white;
+
+  padding: 6px;
+  font-size: 14px;
+  float: right;
+  margin-right: 65%;
+  font-weight: bold;
+
+}
+
+.NEPSE-head span {
+  color: rgb(232, 222, 80);
+}
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
+/* Modify the styles for smaller screens */
+@media (max-width: 768px) {
+  .NEPSE-head {
+    margin-right: 0; /* Remove the right margin */
+    float: right; /* Remove the float */
+  }
+}

@@ -1,0 +1,28 @@
+/* Apply styles to the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Style table header */
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Style table rows */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Style table cells */
+td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}

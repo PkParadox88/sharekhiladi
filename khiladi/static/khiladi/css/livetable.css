@@ -1,0 +1,57 @@
+/* Styles for negative percent change */
+.negative {
+  background-color: red; /* Background color for negative values */
+  color: white; /* Text color for negative values */
+}
+
+/* Styles for positive percent change */
+.positive {
+  background-color: green; /* Background color for positive values */
+  color: white; /* Text color for positive values */
+}
+
+/* Styles for zero percent change */
+.zero {
+  background-color: blue; /* Background color for zero values */
+  color: white; /* Text color for zero values */
+}
+
+
+/* Style the container to wrap the table and prevent horizontal scroll */
+.table-container {
+  max-width: 100%; /* Adjust the maximum width as needed */
+  overflow-x: auto;
+}
+
+/* Style the entire table */
+.live_table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2%;
+}
+
+
+/* Style table headers */
+.live_table th {
+  background-color: #f2f2f2;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+}
+
+
+/* Style table cells */
+.live_table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+/* Style the "Percent Change" cells */
+.live_table td.percent-change {
+  text-align: right;
+}
+

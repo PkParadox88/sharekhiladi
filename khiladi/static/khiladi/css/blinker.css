@@ -1,0 +1,34 @@
+/* Add styling to the blinker container */
+.blinker-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Move content to the right */
+  margin-top: -50px; /* Adjust the margin-top as needed to align with the navigation bar */
+}
+
+/* Style the circular blinker */
+.blinker {
+  width: 10px;
+  height: 10px;
+  background-color: red; /* Set your desired color */
+  border-radius: 50%; /* Make it circular */
+  animation: blink 2s infinite; /* Blink every other second with a 1-second delay */
+}
+
+/* Style the live data label and make it bold */
+.blinker-label {
+  font-weight: bold; /* Bold text */
+  margin-left: 10px; /* Add some spacing between label and blinker */
+  margin-right: 5px; /* Adjust spacing between label and blinker as needed */
+  animation: blink 2s infinite;
+}
+
+/* Keyframes for blinking animation */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

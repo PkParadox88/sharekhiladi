@@ -1,0 +1,30 @@
+/* Style container */
+.counts-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertically center-align the contents */
+    gap: 20px; /* Adjust the gap as needed */
+}
+
+/* Style advances count box */
+.count-box.advances {
+    color: #00cc00; /* Green text color for advances */
+}
+
+/* Style declines count box */
+.count-box.declines {
+    color: #ff0000; /* Red text color for declines */
+}
+
+/* Style neutral count box */
+.count-box.neutral {
+    color: #0000ff; /* Blue text color for neutral */
+}
+
+/* Style count text */
+.count {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px; /* Add some space between text and count */
+}
